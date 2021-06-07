@@ -1,39 +1,44 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace WaetherForecast.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
+    [Route("api/crud")]
     public class WeatherForecastController : ControllerBase
     {
-        private static readonly string[] Summaries = new[]
-        {
-            "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
-        };
+        private readonly ValuesHolder _holder;
 
-        private readonly ILogger<WeatherForecastController> _logger;
-
-        public WeatherForecastController(ILogger<WeatherForecastController> logger)
+        public WeatherForecastController(ValuesHolder holder)
         {
-            _logger = logger;
+            _holder = holder;
         }
 
-        [HttpGet]
-        public IEnumerable<WeatherForecast> Get()
+        [HttpPost("create")]
+        public IActionResult Create([FromQuery] DateTime dateTime, [FromQuery] int temp)
         {
-            var rng = new Random();
-            return Enumerable.Range(1, 5).Select(index => new WeatherForecast
-            {
-                Date = DateTime.Now.AddDays(index),
-                TemperatureC = rng.Next(-20, 55),
-                Summary = Summaries[rng.Next(Summaries.Length)]
-            })
-            .ToArray();
+            _holder.CreateTemperature(dateTime, temp);
+            return Ok();
+        }
+
+        [HttpGet("read")]
+        public IActionResult Read([FromQuery] DateTime startTime, [FromQuery] DateTime endTime)
+        {
+            return Ok(_holder.ReadTemperature(startTime, endTime));
+        }
+
+        [HttpPut("update")]
+        public IActionResult Update([FromQuery] DateTime dateTime, [FromQuery] int newTemp)
+        {
+            _holder.UpdateTemperature(dateTime, newTemp);
+            return Ok();
+        }
+
+        [HttpDelete("delete")]
+        public IActionResult Delete([FromQuery] DateTime startTime, [FromQuery] DateTime endTime)
+        {
+            _holder.DeleteTemperature(startTime, endTime);
+            return Ok();
         }
     }
 }
