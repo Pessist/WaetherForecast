@@ -4,7 +4,7 @@ using System;
 namespace WaetherForecast.Controllers
 {
     [ApiController]
-    [Route("api/crud")]
+    [Route("waetherforecast")]
     public class WeatherForecastController : ControllerBase
     {
         private readonly ValuesHolder _holder;
@@ -15,9 +15,9 @@ namespace WaetherForecast.Controllers
         }
 
         [HttpPost("create")]
-        public IActionResult Create([FromQuery] DateTime dateTime, [FromQuery] int temp)
+        public IActionResult Create([FromQuery] DateTime dateTime, [FromQuery] int temperature)
         {
-            _holder.CreateTemperature(dateTime, temp);
+            _holder.CreateTemperature(dateTime, temperature);
             return Ok();
         }
 

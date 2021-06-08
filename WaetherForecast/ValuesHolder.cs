@@ -18,9 +18,9 @@ namespace WaetherForecast
             }
         }
 
-        public void CreateTemperature(DateTime dateTime, int temp)
+        public void CreateTemperature(DateTime dateTime, int temperature)
         {
-            _weatherHolder.Add(dateTime, temp);
+            _weatherHolder.Add(dateTime, temperature);
         }
 
         public int[] ReadTemperature(DateTime startTime, DateTime endTime)
@@ -35,11 +35,11 @@ namespace WaetherForecast
             return temperatureList.ToArray();
         }
 
-        public void UpdateTemperature(DateTime dateTime, int newTemp)
+        public void UpdateTemperature(DateTime dateTime, int newTemperature)
         {
             if (_weatherHolder.ContainsKey(dateTime))
             {
-                _weatherHolder[dateTime] = newTemp;
+                _weatherHolder[dateTime] = newTemperature;
             }
             else
             {
